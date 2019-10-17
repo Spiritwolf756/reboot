@@ -1,6 +1,10 @@
 package com.ifmo.lesson1;
 
 public class ThreeDigitsSum {
+    /*
+    В переменной n хранится натуральное трёхзначное число.
+    Создайте программу, вычисляющую и выводящую на экран сумму цифр числа n.
+     */
     public static void main(String[] args) {
         int n = 123;
 
@@ -10,10 +14,11 @@ public class ThreeDigitsSum {
     }
 
     public static int sum(int n) {
-        int h = n / 100;
-        int m = (n - h * 100) / 10;
-        int l = n % 10;
-
-        return h + m + l;
+        // TODO implement
+        int x=0;
+        for (char ch : String.valueOf(n).toCharArray()){
+            x=x+Character.getNumericValue(ch);
+        }
+        return x;
     }
 }

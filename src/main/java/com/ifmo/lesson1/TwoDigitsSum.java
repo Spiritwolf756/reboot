@@ -14,9 +14,13 @@ public class TwoDigitsSum {
     }
 
     public static int sum(int n) {
-        int h = n / 10;
-        int l = n % 10;
+        // TODO implement
+        int iDec; //десятки
+        int iEd; //единицы
 
-        return h + l;
+        iDec=n/10;
+        iEd=n%10;
+
+        return iDec+iEd;
     }
 }
