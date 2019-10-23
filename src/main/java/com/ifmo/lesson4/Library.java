@@ -81,12 +81,13 @@ public class Library {
             if (obook[0].toString().equals(book.toString())){
                 if ((int)obook[1]>quantity){
                     obook[1]=(int)obook[1]-quantity;
-                    return (int)obook[1];
+                    return quantity;
                 }else{
                     freeSpace+=1;
+                    int takeBooksCount=(int)obook[1];
                     obook[0]=null;
                     obook[1]=null;
-                    return quantity;
+                    return takeBooksCount;
                 }
             }
         }
@@ -100,7 +101,7 @@ public class Library {
 
         library.put(new Book("Tolstoy", "War and peace"), 6);
 
-        library.take(new Book("Stephen King", "Dark Tower"), 3);
+        library.take(new Book("Stephen King", "Dark Tower"), 6);
 
         library.put(new Book("Tolstoy", "War and peace"), 6);
     }
