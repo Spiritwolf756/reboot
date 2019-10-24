@@ -1,6 +1,6 @@
-package com.ifmo.lesson4;
+package com.ifmo.lesson5;
 
-import java.util.List;
+
 
 /**
  * Односвязный список, где каждый предыдущий
@@ -16,7 +16,7 @@ public class LinkedList {
      *
      * @param val Значение, которое будет добавлено.
      */
-    public void add(Object val) {
+    public void add(Shape val) {
         // TODO implement
         if (head==null){
             head=new Item(val);
@@ -36,7 +36,7 @@ public class LinkedList {
      * @return Значение, которое находится по индексу
      * или {@code null}, если не найдено.
      */
-    public Object get(int i) {
+    public Shape get(int i) {
         // TODO implement
         Item obj = head;
         int count=0;
@@ -57,21 +57,21 @@ public class LinkedList {
      * @param i Индекс, по которому будет удален элемент.
      * @return Удаленное значение или {@code null}, если не найдено.
      */
-    public Object remove(int i) {
+    public Shape remove(int i) {
         // TODO implement
         Item obj = head;
         if (obj==null){
             return null;
         }
         if (i==0){
-            Object value = obj.value;
+            Shape value = obj.value;
             obj=obj.next;
             return value;
         }
         int count=0;
         while (obj.next!=null){
             if (count==i-1){
-                Object nextValue = obj.next.value;
+                Shape nextValue = obj.next.value;
                 obj.next=obj.next.next;
                 return nextValue;
             }
@@ -79,17 +79,5 @@ public class LinkedList {
             count++;
         }
         return null;
-    }
-
-    public static void main(String[] args) {
-        LinkedList list = new LinkedList();
-
-        list.add("1");
-        list.add("2");
-        list.add("3");
-
-        System.out.println(list.remove(4));
-
-        //System.out.println(list.get(1));
     }
 }
