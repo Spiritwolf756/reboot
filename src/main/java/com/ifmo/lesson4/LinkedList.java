@@ -80,7 +80,19 @@ public class LinkedList {
         }
         return null;
     }
-
+    public Item getItem(int i) {
+        // TODO implement
+        Item obj = head;
+        int count=0;
+        while(obj!=null){
+            if (count==i){
+                return obj;
+            }
+            obj=obj.next;
+            count++;
+        }
+        return null;
+    }
     public static void main(String[] args) {
         LinkedList list = new LinkedList();
 

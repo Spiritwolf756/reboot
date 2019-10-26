@@ -8,12 +8,12 @@ package com.ifmo.lesson4;
  *     только для LinkedList'a.
  * </p>
  */
-class Item {
+public class Item {
     /** Значение элемента. */
     Object value;
 
     /** Ссылка на следующий элемент. */
-    Item next;
+    public Item next;
 
     /**
      * Инициализирует элемент со значением

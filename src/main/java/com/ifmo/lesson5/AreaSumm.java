@@ -9,9 +9,9 @@ public class AreaSumm {
         shapes.add(new Rectangle(5.4,3));
         shapes.add(new Square(6.5));
 
-        System.out.println(getSummArea(shapes));
+        System.out.println(totalArea(shapes));
     }
-    public static double getSummArea(LinkedList shapes){
+    public static double totalArea(LinkedList shapes){
         if (shapes==null){
             return 0;
         }
