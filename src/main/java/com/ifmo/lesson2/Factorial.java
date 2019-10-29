@@ -22,7 +22,7 @@ public class Factorial {
         if (n==0){
             return 1;
         }else if(n>0){
-            int fac=1;
+            long fac=1;
             for (int i = 1; i <= n; i++){
                 fac=fac*i;
             }

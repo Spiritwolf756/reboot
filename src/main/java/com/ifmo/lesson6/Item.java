@@ -1,4 +1,4 @@
-package com.ifmo.lesson4;
+package com.ifmo.lesson6;
 
 /**
  * Элемент связного списка, хранящий ссылку

@@ -9,7 +9,7 @@ public class First20 {
         // TODO implement
         int i = 2;
         for (int count=1; count<=20; count++){
-            System.out.println(i*2);
+            System.out.println(i);
             i*=2;
         }
     }

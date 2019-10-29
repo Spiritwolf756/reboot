@@ -35,7 +35,7 @@ public class WallClock {
         int randomSecond = randomSecond();
 
         String remainingHours = remainingHours(randomSecond);
-
+        System.out.println(randomSecond);
         System.out.println(remainingHours);
     }
 
@@ -47,19 +47,23 @@ public class WallClock {
 
     public static String remainingHours(int rndSecond) {
         // TODO implement
-        String msg;
-        msg = rndSecond + "\n";
+        //String msg;
+        //msg = rndSecond + "\n";
         int hours;
         hours = rndSecond / 60 / 60;
         if (hours<1){
-            msg+="Осталось меньше часа";
+            //msg+="Осталось меньше часа";
+            return "Осталось меньше часа";
         }else if (hours==1){
-            msg+="Остался 1 час";
+            //msg+="Остался 1 час";
+            return "Остался 1 час";
         }else if (hours >1 && hours<5){
-            msg+="Осталось " + hours + " часf";
+            //msg+="Осталось " + hours + " часа";
+            return "Осталось " +hours + " часа";
         }else {
-            msg += "Осталось " + hours + " часов";
+            //msg += "Осталось " + hours + " часов";
+            return "Осталось " + hours + " часов";
         }
-        return msg;
+        //return msg;
     }
 }

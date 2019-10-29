@@ -37,13 +37,10 @@ package com.ifmo.lesson4;
  * </pre>
  */
 public class Library {
-    private int freeSpace;
-    private Object[][] books;
+    Shelf[] shelves;
+
     public Library(int maxBookKinds) {
-        // TODO implement
-        // Возможно здесь следует сынициализировать массив.
-        books = new Object[maxBookKinds][2];
-        freeSpace=maxBookKinds;
+        shelves = new Shelf[maxBookKinds];
     }
 
     /**
@@ -54,17 +51,20 @@ public class Library {
      * @return {@code True} if book successfully added, {@code false} otherwise.
      */
     public boolean put(Book book, int quantity) {
-        // TODO implement
-        if (freeSpace>0){
-            for ( Object[] obook : books){
-                if (obook[0]==null){
-                    obook[0]=book;
-                    obook[1]=quantity;
-                    freeSpace-=1;
-                    return true;
-                }
-            }
-       }
+        ShelfIndex shelfIndex = findShelf(book);
+
+        if (shelfIndex.shelf != null) {
+            shelfIndex.shelf.quantity += quantity;
+
+            return true;
+        }
+
+        if (shelfIndex.index >= 0) {
+            shelves[shelfIndex.index] = new Shelf(book, quantity);
+
+            return true;
+        }
+
         return false;
     }
 
@@ -76,33 +76,43 @@ public class Library {
      * @return Actual number of books taken.
      */
     public int take(Book book, int quantity) {
-        // TODO implement
-        for ( Object[] obook : books){
-            if (obook[0].toString().equals(book.toString())){
-                if ((int)obook[1]>quantity){
-                    obook[1]=(int)obook[1]-quantity;
-                    return quantity;
-                }else{
-                    freeSpace+=1;
-                    int takeBooksCount=(int)obook[1];
-                    obook[0]=null;
-                    obook[1]=null;
-                    return takeBooksCount;
-                }
+        ShelfIndex shelfIndex = findShelf(book);
+
+        Shelf shelf = shelfIndex.shelf;
+
+        if (shelf != null) {
+            shelf.quantity -= quantity;
+
+            if (shelf.quantity <= 0) {
+                int taken = quantity + shelf.quantity;
+
+                shelves[shelfIndex.index] = null;
+
+                return taken;
             }
+
+            return quantity;
         }
+
         return 0;
     }
 
-    public static void main(String[] args) {
-        Library library = new Library(2);
-        library.put(new Book("Stephen King", "Shining"), 2);
-        library.put(new Book("Stephen King", "Dark Tower"), 3);
+    private ShelfIndex findShelf(Book book) {
+        int nullIdx = -1;
 
-        library.put(new Book("Tolstoy", "War and peace"), 6);
+        for (int i = 0; i < shelves.length; i++) {
+            Shelf shelf = shelves[i];
 
-        library.take(new Book("Stephen King", "Dark Tower"), 6);
+            if (shelf != null) {
+                if (shelf.book.author.equals(book.author)
+                        && shelf.book.title.equals(book.title)) {
+                    return new ShelfIndex(shelf, i);
+                }
+            } else {
+                nullIdx = i;
+            }
+        }
 
-        library.put(new Book("Tolstoy", "War and peace"), 6);
+        return new ShelfIndex(null, nullIdx);
     }
 }

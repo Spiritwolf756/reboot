@@ -26,8 +26,8 @@ public class SquareEquation {
         d=b*b-4*a*c;
         if (d>0){
             double[] ret = new double[2];
-            ret[0]=(0-b+Math.sqrt(d)/2*a);
-            ret[1]=(0-b-Math.sqrt(d)/2*a);
+            ret[0]=(0-b+Math.sqrt(d))/(2*a);
+            ret[1]=(0-b-Math.sqrt(d))/(2*a);
             return ret;
         }else if (d==0){
             return new double[] {(0-b)/(2*a)};
