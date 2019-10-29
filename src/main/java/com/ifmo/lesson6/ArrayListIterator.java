@@ -13,7 +13,7 @@ public class ArrayListIterator implements Iterator<Object> {
     }
     @Override
     public boolean hasNext(){
-        if (arrayList.get(count+1)!=null){
+        if (arrayList.get(count)!=null){
             return true;
         }
         return false;
@@ -21,8 +21,8 @@ public class ArrayListIterator implements Iterator<Object> {
     @Override
     public Object next(){
         if (hasNext()){
-            count++;
-            return arrayList.get(count);
+            //count++;
+            return arrayList.get(count++);
         }
         return null;
     }

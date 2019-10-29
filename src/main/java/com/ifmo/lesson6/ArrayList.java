@@ -63,8 +63,11 @@ public class ArrayList implements List {
     /** {@inheritDoc} */
     @Override
     public Object remove(int i) {
-        // TODO implement.
-
+       for(int j=i; j<count; j++){
+            values[j]=values[j+1];
+        }
+        values[count]=null;
+        count--;
         return null;
     }
 

@@ -2,7 +2,7 @@ package com.ifmo.lesson5;
 
 public class FixLoop {
     public static void main(String[] args) {
-        com.ifmo.lesson4.LinkedList test=new com.ifmo.lesson4.LinkedList();
+    /*    com.ifmo.lesson4.LinkedList test=new com.ifmo.lesson4.LinkedList();
         int a =1;
         int b=2;
         int c=3;
@@ -35,6 +35,6 @@ public class FixLoop {
                 }
             }
         }
-        return false;
+        return false;*/
     }
 }
