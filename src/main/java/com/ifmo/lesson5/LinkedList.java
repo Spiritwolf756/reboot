@@ -17,7 +17,6 @@ public class LinkedList {
      * @param val Значение, которое будет добавлено.
      */
     public void add(Shape val) {
-        // TODO implement
         if (head==null){
             head=new Item(val);
             return;
@@ -37,7 +36,6 @@ public class LinkedList {
      * или {@code null}, если не найдено.
      */
     public Shape get(int i) {
-        // TODO implement
         Item obj = head;
         int count=0;
         while(obj!=null){
@@ -58,7 +56,6 @@ public class LinkedList {
      * @return Удаленное значение или {@code null}, если не найдено.
      */
     public Shape remove(int i) {
-        // TODO implement
         Item obj = head;
         if (obj==null){
             return null;

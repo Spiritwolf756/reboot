@@ -1,4 +1,4 @@
-package com.ifmo.lesson6;
+package com.ifmo.lesson6.Remove;
 
 /**
  * Элемент связного списка, хранящий ссылку
@@ -24,5 +24,9 @@ class Item {
      */
     Item(Object value) {
         this.value = value;
+    }
+    @Override
+    public String toString(){
+        return value.toString();
     }
 }

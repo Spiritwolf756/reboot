@@ -1,29 +1,28 @@
-package com.ifmo.lesson6;
+package com.ifmo.lesson6.Remove;
+
+import com.ifmo.lesson6.ArrayList;
 
 import java.util.Iterator;
 
 public class ArrayListIterator implements Iterator<Object> {
     private ArrayList arrayList;
     private int count;
-    private Object object;
+   // private Object object;
 
     public ArrayListIterator(ArrayList arrayList){
         this.arrayList=arrayList;
-        object=arrayList.get(0);
+        //object=arrayList.get(0);
     }
     @Override
     public boolean hasNext(){
-        if (arrayList.get(count)!=null){
-            return true;
-        }
-        return false;
+        return arrayList.get(count) != null;
     }
     @Override
     public Object next(){
-        if (hasNext()){
+        //if (hasNext()){
             //count++;
             return arrayList.get(count++);
-        }
-        return null;
+        //}
+        //return null;
     }
 }

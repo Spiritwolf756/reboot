@@ -16,10 +16,10 @@ import java.util.Iterator;
  * |0|1|3|4|5|_|
  * Теперь при итерации по ним после 1 будет идти сразу 3, как в связном списке.
  */
-public class ArrayList implements List {
+public class ArrayList<T> implements List<T> {
     private static final int DEFAULT_SIZE = 10;
     private int count=0;
-    private Object[] values;
+    private T[] values;
 
     /**
      * Создаёт новый {@link #ArrayList} с размером внутреннего массива по умолчанию.
@@ -35,12 +35,13 @@ public class ArrayList implements List {
      * @param initialSize Начальный размер внутреннего массива.
      */
     public ArrayList(int initialSize) {
-        values = new Object[initialSize];
+        values = (T[]) new Object[initialSize];
+        //values = new T[initialSize];
     }
 
     /** {@inheritDoc} */
     @Override
-    public void add(Object val) {
+    public void add(T val) {
         // TODO implement.
         if (count==values.length-1){
             resize(values.length*2);
@@ -49,20 +50,20 @@ public class ArrayList implements List {
 
     }
     private void resize(int newLenght){
-        Object[] newValues = new Object[newLenght];
+        T[] newValues = (T[])new Object[newLenght];
         System.arraycopy(values, 0, newValues, 0, count);
         values=newValues;
     }
     /** {@inheritDoc} */
     @Override
-    public Object get(int i) {
+    public T get(int i) {
         // TODO implement.
         return values[i];
     }
 
     /** {@inheritDoc} */
     @Override
-    public Object remove(int i) {
+    public T remove(int i) {
        for(int j=i; j<count; j++){
             values[j]=values[j+1];
         }
@@ -73,7 +74,29 @@ public class ArrayList implements List {
 
     /** {@inheritDoc} */
     @Override
-    public Iterator<Object> iterator() {
-        return new ArrayListIterator(this);
+    public Iterator<T> iterator() {
+        return new ArrayListIterator<>(this);
+    }
+    private class ArrayListIterator<T> implements Iterator<T> {
+        private ArrayList<T> arrayList;
+        private int count;
+        // private Object object;
+
+        public ArrayListIterator(ArrayList arrayList){
+            this.arrayList=arrayList;
+            //object=arrayList.get(0);
+        }
+        @Override
+        public boolean hasNext(){
+            return arrayList.get(count) != null;
+        }
+        @Override
+        public T next(){
+            //if (hasNext()){
+            //count++;
+            return arrayList.get(count++);
+            //}
+            //return null;
+        }
     }
 }

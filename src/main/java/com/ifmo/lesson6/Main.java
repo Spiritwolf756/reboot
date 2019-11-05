@@ -17,4 +17,16 @@ public class Main {
             System.out.println(obj);
         System.out.println(arrayList.get(1));
     }
+    public static void testLinkedList(){
+        LinkedList linkedList = new LinkedList();
+        linkedList.add(1);
+        linkedList.add(2);
+        linkedList.add(4);
+    for (Object item : linkedList){
+        System.out.println(item);
+    }
+
+
+
+    }
 }

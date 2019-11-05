@@ -25,18 +25,18 @@ package com.ifmo.lesson6;
  * </pre>
  *
  */
-public interface Queue {
+public interface Queue<T> {
     /**
      * Добавляет элемент в конец очереди.
      *
      * @param value Данные, которые будут добавлены в очередь.
      */
-    void add(Object value);
+    void add(T value);
 
     /**
      * Удаляет элемент из головы очереди.
      *
      * @return Данные, которые будут удалены из очереди или {@code null}, если очередь пустая.
      */
-    Object take();
+    T take();
 }
