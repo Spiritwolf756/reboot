@@ -24,5 +24,12 @@ public class Book {
         }
         return hash;
     }
+    //надо перезаписать equals
+    /*
+    @Override
+        public boolean equals(){
+
+    }
+    */
 }
 

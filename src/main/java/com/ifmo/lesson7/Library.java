@@ -99,6 +99,7 @@ public class Library {
                 if (shelf.book.title.equals(book.title)
                         && shelf.book.author.equals(book.author)){
                     //нашли книгу
+                    curQuantity--;
                     shelf.quantity-=quantity;
                     if (shelf.quantity<=0){
                         hashMap.remove(book.hashCode()); //забрали все книги, удалили запись

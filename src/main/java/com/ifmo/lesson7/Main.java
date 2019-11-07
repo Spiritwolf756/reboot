@@ -34,6 +34,8 @@ public class Main {
         library.put(b3, 7);
 
         library.take(b1, 3);
+
+        System.out.println(library);
     }
 
 }
