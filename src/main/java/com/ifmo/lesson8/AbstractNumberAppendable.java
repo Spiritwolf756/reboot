@@ -1,8 +1,8 @@
 package com.ifmo.lesson8;
 
-import com.ifmo.lesson6.Operation;
 
-public class AbstractNumberAppendable<T> implements Appendable<T>{
+
+public class AbstractNumberAppendable<T extends Number> implements Appendable<T>{
     protected Number value;
     private Operation op;
 
