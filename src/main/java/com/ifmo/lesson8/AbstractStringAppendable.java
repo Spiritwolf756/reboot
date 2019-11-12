@@ -7,6 +7,9 @@ public class AbstractStringAppendable implements Appendable<String>{
         value=(value==null)?string:value+separator+string;
         return this;
     }
+    public String value(){
+        return value;
+    }
     void setSeparator(String str){
         this.separator=str;
     }

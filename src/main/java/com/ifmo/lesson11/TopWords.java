@@ -67,16 +67,17 @@ public class TopWords {
     public static Map<Character, Integer> charactersFrequency(List<String> words) {
         Map<Character, Integer> bigMap = new HashMap<>();
         for (String word:words){
-            if (word.length()==0) {
+        /*    if (word.length()==0) {
                 continue;
             }
             if (word.length()==1){
                 changeBigMap(bigMap, word);
                 continue;
             }
-            for (int i = 0; i<=word.length(); i++){
-                //System.out.println("Слово: " + word.substring(i,i+1));
-                changeBigMap(bigMap,  word.substring(i,(i+1)>word.length()?i:i+1));
+
+         */
+            for (int i = 0; i<word.length(); i++){
+                changeBigMap(bigMap, word.charAt(i));
             }
         }
         return bigMap; //вернуть все символы с количеством повторений
@@ -89,10 +90,18 @@ public class TopWords {
                 map.put(word, count + 1);
             }
         }
+    private static void changeBigMap(Map map, Character ch) {
+        if (map.get(ch) == null) {
+            map.put(ch, 1);
+        } else {
+            int count = (int) map.get(ch);
+            map.put(ch, count + 1);
+        }
+    }
     private static Map<String, Integer> getTop10(Map<String, Integer> bigMap){
         List<Map.Entry> list = new ArrayList<>(bigMap.entrySet());
 
-        Collections.sort(list, new Comparator<Map.Entry>() {
+        list.sort(new Comparator<Map.Entry>() {
             @Override
             public int compare(Map.Entry o1, Map.Entry o2) {
                 return (int) o2.getValue() - (int) o1.getValue();

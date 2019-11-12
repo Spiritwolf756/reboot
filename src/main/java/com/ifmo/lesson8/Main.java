@@ -9,5 +9,10 @@ public class Main {
         StringAppendable str = new StringAppendable(", ");
         str.append("lolo").append("lele").append("lulu");
         System.out.println(str);
+
+       // DoubleAppendable dblapp = new DoubleAppendable(new Minus());
+       // dblapp.append(10.5).append(5.2);
+       // System.out.println(dblapp);
     }
+
 }

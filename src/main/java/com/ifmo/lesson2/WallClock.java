@@ -40,20 +40,16 @@ public class WallClock {
     }
 
     public static int randomSecond() {
-        // TODO implement
         Random rnd = new Random((System.currentTimeMillis()));
         return rnd.nextInt(28800+1);
     }
 
     public static String remainingHours(int rndSecond) {
-        // TODO implement
-        //String msg;
-        //msg = rndSecond + "\n";
         int hours;
         hours = rndSecond / 60 / 60;
         if (hours<1){
             //msg+="Осталось меньше часа";
-            return "Осталось меньше часа";
+            return "Осталось менее часа";
         }else if (hours==1){
             //msg+="Остался 1 час";
             return "Остался 1 час";
