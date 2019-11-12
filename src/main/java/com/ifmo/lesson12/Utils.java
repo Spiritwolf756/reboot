@@ -104,7 +104,8 @@ public class Utils  {
                             item=current.next();
                         }
                         while (!filter.isValid(item)) {
-                            item = current.next();
+                            if (current.hasNext())
+                                item = current.next();
                             if (!current.hasNext()) {
                                 pos++;
 
