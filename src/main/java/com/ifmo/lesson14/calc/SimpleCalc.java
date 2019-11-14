@@ -22,6 +22,7 @@ import java.util.*;
  */
 public class SimpleCalc {
     private static Set<Dim> dim = new HashSet<>();
+    private static Map<String, Integer> dim1 = new HashMap<>();
     public static void main(String[] args) {
         //Set<Dim> dim = new HashSet<>();
         Scanner scanner = new Scanner(System.in);
@@ -57,7 +58,9 @@ public class SimpleCalc {
             throw new CalcException("Expression must have only 3 operands separated with space (e.g. 2 + 4): " + line);
 
         if (operands[1].equals("=")) {
-            dim.add(new Dim(operands[0], operands[2]));
+            dim1.put(operands[0], Integer.valueOf(operands[2]));
+
+           // dim.add(new Dim(operands[0], operands[2]));
             //System.out.println("Variable have saved");
             return Integer.parseInt(operands[2]);
         } else {
@@ -78,11 +81,14 @@ public class SimpleCalc {
         }
         catch (NumberFormatException e) {
             try {
-                return dim.stream()
+                return dim1.get(string);
+             /*   return dim.stream()
                         .filter(d -> d.getName().equals(string))
                         .findFirst()
                         .get().getValue();
-            } catch (Exception ex) {
+
+              */
+            } catch (NullPointerException ex) {
                 ex.printStackTrace();
             }
             throw new CalcException("Wrong operand, must be only integer number: " + string, e);
