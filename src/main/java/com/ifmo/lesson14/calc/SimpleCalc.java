@@ -58,7 +58,8 @@ public class SimpleCalc {
 
         if (operands[1].equals("=")) {
             dim.add(new Dim(operands[0], operands[2]));
-            System.out.println("Variable have saved");
+            //System.out.println("Variable have saved");
+            return Integer.parseInt(operands[2]);
         } else {
 
             OPERATOR operator = OPERATOR.parse(operands[1]);
@@ -69,7 +70,6 @@ public class SimpleCalc {
 
             return operator.apply(op1, op2);
         }
-        return 0;
     }
 
     private static int parseOperand(String string) throws CalcException {
