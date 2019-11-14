@@ -23,7 +23,7 @@ public class PrimeNumber {
     }
 
     public static boolean isPrime(int n) {
-        if (n==1 || n==2 || n==4){
+        if (n==1 || n==4){
             return false;
         }
         if (n>1){
