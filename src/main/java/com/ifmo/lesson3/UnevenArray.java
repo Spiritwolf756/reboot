@@ -10,11 +10,11 @@ public class UnevenArray {
         int[] unevenArray = unevenArray();
 
         for (int i : unevenArray) {
-            System.out.print(i + ", ");
+            System.out.print(i +" ");
         }
-        System.out.println("\n");
+        System.out.print("\n");
         for (int i = unevenArray.length-1; i>=0; i--){
-            System.out.print(unevenArray[i] + ", ");
+            System.out.print(unevenArray[i] + " ");
         }
     }
 
