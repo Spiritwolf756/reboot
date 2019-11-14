@@ -57,7 +57,8 @@ public class ArrayList<T> implements List<T> {
     /** {@inheritDoc} */
     @Override
     public T get(int i) {
-        // TODO implement.
+        if (i>=values.length)
+            return null;
         return values[i];
     }
 

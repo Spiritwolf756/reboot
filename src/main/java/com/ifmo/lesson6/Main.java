@@ -5,7 +5,7 @@ public class Main {
         //Accumulator accumulator = new Accumulator(10, new Plus());
         //System.out.println(accumulator.accumulate(15));
         //System.out.println(accumulator.accumulate(50));
-        testLinkedList();
+        testArrayList();
     }
     private static void testArrayList() {
         ArrayList arrayList = new ArrayList();
@@ -13,7 +13,7 @@ public class Main {
         arrayList.add(2);
         arrayList.add(3);
 
-        arrayList.remove(3);
+        System.out.println(arrayList.get(3));
         //arrayList.remove(1);
         //arrayList.remove(1);
      //   for (Object obj : arrayList)
@@ -25,6 +25,8 @@ public class Main {
         linkedList.add(1);
         linkedList.add(2);
         linkedList.add(4);
+
+        linkedList.get(3);
     for (Object item : linkedList){
         System.out.println(item);
     }
