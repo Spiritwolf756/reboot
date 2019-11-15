@@ -13,7 +13,7 @@ public class Main {
         arrayList.add(2);
         arrayList.add(3);
 
-        System.out.println(arrayList.get(3));
+        System.out.println(arrayList.remove(0));
         //arrayList.remove(1);
         //arrayList.remove(1);
      //   for (Object obj : arrayList)

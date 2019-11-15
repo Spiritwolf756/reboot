@@ -65,12 +65,13 @@ public class ArrayList<T> implements List<T> {
     /** {@inheritDoc} */
     @Override
     public T remove(int i) {
+        T ret = values[i];
        for(int j=i; j<count; j++){
             values[j]=values[j+1];
         }
         values[count]=null;
         count--;
-        return null;
+        return ret;
     }
 
     /** {@inheritDoc} */
