@@ -61,8 +61,6 @@ public class Library {
      * @return {@code True} if book successfully added, {@code false} otherwise.
      */
     public boolean put(Book book, int quantity) {
-        if (curQuantity >= maxQuantity)
-            return false; //свободных полок нет
         if (hashMap.containsKey(book.hashCode())) {
             for (Shelf shelf : hashMap.get(book.hashCode())) {
                 if (shelf.book.equals(book)) {
@@ -70,12 +68,16 @@ public class Library {
                     return true; //хотели положить уже существующую книгу - увеличили количество экземпляров
                 }
             }
+            if (curQuantity >= maxQuantity)
+                return false; //свободных полок нет
             LinkedList<Shelf> findList = hashMap.get(book.hashCode());
             findList.add(new Shelf(book, quantity));
             hashMap.put(book.hashCode(), findList);
             curQuantity++; //увеличиваем количество занятых полок
             return true; //одинаковый хешкод, добавили новую книгу
         }
+        if (curQuantity >= maxQuantity)
+            return false; //свободных полок нет
         LinkedList<Shelf> newShelf = new LinkedList<>();
         newShelf.add(new Shelf(book, quantity));
         hashMap.put(book.hashCode(), newShelf); //
@@ -92,12 +94,17 @@ public class Library {
      */
     public int take(Book book, int quantity) {
         if (hashMap.containsKey(book.hashCode())) {
-            for (Shelf shelf : hashMap.get(book.hashCode())) {
+            List<Shelf> shelves = hashMap.get(book.hashCode());
+            for (Shelf shelf : shelves) {
                 if (shelf.book.equals(book)) {
                     //нашли книгу
                     shelf.quantity -= quantity;
                     if (shelf.quantity <= 0) {
-                        hashMap.remove(book.hashCode()); //забрали все книги, удалили запись
+                        if (shelves.size()==1) { //на выбранном хешкоде нет других книг-авторы
+                            hashMap.remove(book.hashCode()); //забрали все книги, удалили запись
+                        }else { //на выбранном хешкоде есть другие книги-авторы
+                            shelves.remove(shelf);
+                        }
                         curQuantity--;
                         return shelf.quantity + quantity;
                     }
