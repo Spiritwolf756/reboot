@@ -17,4 +17,16 @@ public class Shelf {
         }
         return hash;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || obj.getClass() != this.getClass())
+            return false;
+        Shelf shelf = (Shelf) obj;
+        if (book.author.equals(shelf.book.author) && book.title.equals(shelf.book.title))
+            return true;
+        return false;
+    }
 }

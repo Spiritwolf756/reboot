@@ -24,12 +24,16 @@ public class Book {
         }
         return hash;
     }
-    //надо перезаписать equals
-    /*
     @Override
-        public boolean equals(){
-
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || obj.getClass() != this.getClass())
+            return false;
+        Book book = (Book) obj;
+        if (author.equals(book.author) && title.equals(book.title))
+            return true;
+        return false;
     }
-    */
 }
 
