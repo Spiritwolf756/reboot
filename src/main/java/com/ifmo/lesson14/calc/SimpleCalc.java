@@ -23,6 +23,7 @@ import java.util.*;
 public class SimpleCalc {
     private static Set<Dim> dim = new HashSet<>();
     private static Map<String, Integer> dim1 = new HashMap<>();
+
     public static void main(String[] args) {
         //Set<Dim> dim = new HashSet<>();
         Scanner scanner = new Scanner(System.in);
@@ -37,8 +38,7 @@ public class SimpleCalc {
 
             try {
                 System.out.println("Answer is: " + calculate(line));
-            }
-            catch (CalcException e) {
+            } catch (CalcException e) {
                 System.err.println("Error occurred: ");
 
                 e.printStackTrace();
@@ -60,7 +60,7 @@ public class SimpleCalc {
         if (operands[1].equals("=")) {
             dim1.put(operands[0], Integer.valueOf(operands[2]));
 
-           // dim.add(new Dim(operands[0], operands[2]));
+            // dim.add(new Dim(operands[0], operands[2]));
             //System.out.println("Variable have saved");
             return Integer.parseInt(operands[2]);
         } else {
@@ -78,11 +78,10 @@ public class SimpleCalc {
     private static int parseOperand(String string) throws CalcException {
         try {
             return Integer.parseInt(string);
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             try {
                 return dim1.get(string);
-             /*   return dim.stream()
+                /*   return dim.stream()
                         .filter(d -> d.getName().equals(string))
                         .findFirst()
                         .get().getValue();
@@ -98,11 +97,12 @@ public class SimpleCalc {
     private static class Dim {
         private String name;
         private int value;
+
         Dim(String name, String value) throws CalcException {
-            this.name=name;
+            this.name = name;
             try {
                 this.value = Integer.parseInt(value);
-            }catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 throw new CalcException("Wrong operand, must be only integer number: " + value, e);
             }
         }
