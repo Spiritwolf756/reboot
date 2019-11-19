@@ -117,7 +117,7 @@ public class LinkedList<T> implements List<T>, Stack<T>, Queue<T> {
         /** Значение элемента.
         T value;
 
-        /** Ссылка на следующий элемент. 
+        /** Ссылка на следующий элемент.
         Item<T> next;
 
 

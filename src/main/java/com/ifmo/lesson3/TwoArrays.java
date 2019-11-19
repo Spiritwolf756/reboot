@@ -11,10 +11,10 @@ public class TwoArrays {
      сообщите, что их средние арифметические равны).
      */
     public static void main(String[] args) {
-        Random rnd = new Random((System.currentTimeMillis()));
+       // Random rnd = new Random((System.currentTimeMillis()));
 
-        int[] randomNumbers1 = randomNumbers(rnd);
-        int[] randomNumbers2 = randomNumbers(rnd);
+        int[] randomNumbers1 = randomNumbers();
+        int[] randomNumbers2 = randomNumbers();
 
         System.out.println(Arrays.toString(randomNumbers1));
         System.out.println(Arrays.toString(randomNumbers2));
@@ -31,7 +31,8 @@ public class TwoArrays {
         }
     }
 
-    public static int[] randomNumbers(Random rnd) {
+    public static int[] randomNumbers() {
+        Random rnd = new Random();
         int[] arrint = new int[5];
         for (int i = 0; i<arrint.length; i++){
             arrint[i]=rnd.nextInt(5+1);
