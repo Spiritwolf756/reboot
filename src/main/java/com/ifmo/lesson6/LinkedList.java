@@ -113,20 +113,20 @@ public class LinkedList<T> implements List<T>, Stack<T>, Queue<T> {
             return tmp;
         }
     }
-    private class Item<T> {
-        /** Значение элемента. */
+ /*   private class Item<T> {
+        /** Значение элемента.
         T value;
 
-        /** Ссылка на следующий элемент. */
+        /** Ссылка на следующий элемент. 
         Item<T> next;
 
-        /**
+
          * Инициализирует элемент со значением
          * {@code value}.
          *
          * @param value Значение, которое будет сохранено
          *              в этом элементе.
-         */
+
         Item(T value) {
             this.value = value;
         }
@@ -135,4 +135,5 @@ public class LinkedList<T> implements List<T>, Stack<T>, Queue<T> {
             return value.toString();
         }
     }
+    */
 }
