@@ -8,109 +8,132 @@ import java.util.Iterator;
  * оканчивается ссылкой со значением {@code null}.
  */
 public class LinkedList<T> implements List<T>, Stack<T>, Queue<T> {
-    /** Ссылка на первый элемент списка. */
+    /**
+     * Ссылка на первый элемент списка.
+     */
     private Item<T> head;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void add(T val) {
-        if (head==null){
-            head= new Item<T>(val);
+        if (head == null) {
+            head = new Item<T>(val);
             return;
         }
         Item<T> obj = head;
-        while (obj.next!=null){
-            obj=obj.next;
+        while (obj.next != null) {
+            obj = obj.next;
         }
-        obj.next=new Item<T>((val));
+        obj.next = new Item<T>((val));
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T take() {
         return pop();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T get(int i) {
         Item<T> obj = head;
-        int count=0;
-        while(obj!=null){
-            if (count==i){
+        int count = 0;
+        while (obj != null) {
+            if (count == i) {
                 return obj.value;
             }
-            obj=obj.next;
+            obj = obj.next;
             count++;
         }
         return null;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T remove(int i) {
         Item<T> obj = head;
-        if (obj==null){
+        if (obj == null) {
             return null;
         }
-        if (i==0){
+        if (i == 0) {
             T value = head.value;
-            head=head.next;
+            head = head.next;
             return value;
         }
-        int count=0;
-        while (obj.next!=null){
-            if (count==i-1){
+        int count = 0;
+        while (obj.next != null) {
+            if (count == i - 1) {
                 T nextValue = obj.next.value;
-                obj.next=obj.next.next;
+                obj.next = obj.next.next;
                 return nextValue;
             }
-            obj=obj.next;
+            obj = obj.next;
             count++;
         }
         return null;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Iterator iterator() {
         return new LinkedListIterator(head);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void push(T value) {
         Item<T> tmp = head;
         head = new Item<T>(value);
-        head.next=tmp;
+        head.next = tmp;
     }
 
-    /** {@inheritDoc}
-     * @return*/
+    /**
+     * {@inheritDoc}
+     *
+     * @return
+     */
     @Override
     public T pop() {
-        if (head==null)
+        if (head == null)
             return null;
         Item<T> tmp = head;
         head = head.next;
         return tmp.value;   //???
     }
+
     private class LinkedListIterator implements Iterator<Object> {
         private Item<T> item;
         //private int count;
 
-        public LinkedListIterator(Item<T> head){
-            this.item=head;
+        public LinkedListIterator(Item<T> head) {
+            this.item = head;
         }
+
         @Override
-        public boolean hasNext(){
-            return item!= null;
+        public boolean hasNext() {
+            return item != null;
         }
+
         @Override
-        public T next(){
-            T tmp = item.value;
-            item = item.next;
-            return tmp;
+        public T next() {
+            if (hasNext()) {
+                T tmp = item.value;
+                item = item.next;
+                return tmp;
+            }
+            return null;
         }
     }
  /*   private class Item<T> {

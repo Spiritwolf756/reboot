@@ -26,7 +26,7 @@ public class Main {
         linkedList.add(2);
         linkedList.add(4);
 
-        System.out.println(linkedList.remove(1));
+  //      System.out.println(linkedList.remove(1));
 
        // linkedList.get(3);
     for (Object item : linkedList){
