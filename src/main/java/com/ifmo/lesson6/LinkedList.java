@@ -54,8 +54,8 @@ public class LinkedList<T> implements List<T>, Stack<T>, Queue<T> {
             return null;
         }
         if (i==0){
-            T value = obj.value;
-            obj=obj.next;
+            T value = head.value;
+            head=head.next;
             return value;
         }
         int count=0;
