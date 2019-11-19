@@ -113,7 +113,7 @@ public class LinkedList<T> implements List<T>, Stack<T>, Queue<T> {
             return tmp;
         }
     }
-    class Item<T> {
+    public class Item<T> {
         /** Значение элемента. */
         T value;
 
