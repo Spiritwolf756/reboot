@@ -1,6 +1,11 @@
 package com.ifmo.lesson16.print;
 
+import com.ifmo.lesson16.print.Commands.Ban;
+import com.ifmo.lesson16.print.Commands.Ping;
+import com.ifmo.lesson16.print.Commands.ServerTime;
+
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.*;
@@ -11,19 +16,26 @@ public class PrintClient {
 
     private SocketAddress serverAddr;
 
-    private String name;
+    private String name = null;
 
     private Scanner scanner;
 
-    public PrintClient(SocketAddress serverAddr, Scanner scanner) {
+    User user;
+
+    public PrintClient(SocketAddress serverAddr, Scanner scanner) throws SocketException {
         this.serverAddr = serverAddr;
         this.scanner = scanner;
+        user = new User(getAddresses());
     }
 
-    private void start() throws IOException {
-        System.out.println("Enter your name: ");
+    private void start() throws IOException, ClassNotFoundException {
 
-        name = scanner.nextLine();
+        do {
+            System.out.println("Enter your name: ");
+            name = scanner.nextLine();
+            user.setName(name);
+        } while (authorization() < 1);
+
 
         while (true) {
             System.out.println("Enter message to send: ");
@@ -38,21 +50,114 @@ public class PrintClient {
                 name = scanner.nextLine();
 
                 continue;
-            }
-            else if ("/myaddr".equals(msg)) {
+            } else if ("/myaddr".equals(msg)) {
                 printAddresses();
 
                 continue;
+            } else if ("/ping".equals(msg)) {
+                ping();
+            } else if ("/server_time".equals(msg)) {
+                serverTime();
+            } else if ("/ban ".equals(msg.substring(0, 5))) {
+                ban(new Ban(msg.substring(5), true));
+            } else if ("/unban ".equals(msg.substring(0, 7))) {
+                ban(new Ban(msg.substring(7), true));
+            } else {
+                buildAndSendMessage(msg);
+            }
+        }
+    }
+
+    private void ban(Ban ban) throws IOException, ClassNotFoundException {
+        try (Socket sock = new Socket()) {
+            sock.connect(serverAddr);
+            try (OutputStream out = sock.getOutputStream()) {
+                ObjectOutputStream objOut = new ObjectOutputStream(out);
+                ObjectInputStream objIn = new ObjectInputStream(sock.getInputStream());
+                objOut.writeObject(ban);
+
+                Ban response = (Ban) objIn.readObject();
+                System.out.println(response);
+            }
+        }
+
+    }
+
+    private int authorization() throws IOException, ClassNotFoundException {
+        if (name == null)
+            return 0;
+        try (Socket sock = new Socket()) {
+            sock.connect(serverAddr);
+            try (OutputStream out = sock.getOutputStream()) {
+                ObjectOutputStream objOut = new ObjectOutputStream(out);
+                ObjectInputStream objIn = new ObjectInputStream(sock.getInputStream());
+                objOut.writeObject(user);
+
+                int response = (int) objIn.readObject();
+
+                if (response == 0) {
+                    System.out.println("Пользователь с данным именем уже авторизован");
+                    return 0;
+                }
+                if (response == 1) {
+                    System.out.println("Вы успешно авторизовались");
+                    return 1;
+                }
+                if (response == -1) {
+                    System.out.println("Доступ с Вашего IP заблокирован");
+                    return -1;
+                }
             }
 
-            buildAndSendMessage(msg);
         }
+        return 0;
+    }
+
+    private void serverTime() throws IOException, ClassNotFoundException {
+        try (Socket sock = new Socket()) {
+            sock.connect(serverAddr);
+
+            try (OutputStream out = sock.getOutputStream()) {
+                ObjectOutputStream objOut = new ObjectOutputStream(out);
+                ObjectInputStream objIn = new ObjectInputStream(sock.getInputStream());
+
+                objOut.writeObject(new ServerTime());
+
+                ServerTime response = (ServerTime) objIn.readObject();
+
+                System.out.println(response);
+            }
+        }
+    }
+
+    private void ping() throws IOException, ClassNotFoundException {
+        long duration = 0;
+        for (int i = 0; i < 5; i++) {
+            try (Socket sock = new Socket()) {
+                sock.connect(serverAddr);
+
+
+                try (OutputStream out = sock.getOutputStream()) {
+                    ObjectOutputStream objOut = new ObjectOutputStream(out);
+                    ObjectInputStream objIn = new ObjectInputStream(sock.getInputStream());
+
+                    objOut.writeObject(new Ping());
+
+                    Ping response = (Ping) objIn.readObject();
+
+                    System.out.println(response.duration());
+                    duration += response.duration();
+                    objOut.flush();
+                }
+            }
+        }
+        System.out.println("Your ping is " + duration / 5 + " ms");
     }
 
     private void printAddresses() throws SocketException {
         Enumeration e = NetworkInterface.getNetworkInterfaces();
 
-        while(e.hasMoreElements()) {
+        while (e.hasMoreElements()) {
             NetworkInterface n = (NetworkInterface) e.nextElement();
 
             Enumeration ee = n.getInetAddresses();
@@ -63,6 +168,23 @@ public class PrintClient {
                 System.out.println(i.getHostAddress());
             }
         }
+    }
+
+    private String getAddresses() throws SocketException {
+        Enumeration e = NetworkInterface.getNetworkInterfaces();
+
+        while (e.hasMoreElements()) {
+            NetworkInterface n = (NetworkInterface) e.nextElement();
+
+            Enumeration ee = n.getInetAddresses();
+
+            while (ee.hasMoreElements()) {
+                InetAddress i = (InetAddress) ee.nextElement();
+
+                return i.getHostAddress();
+            }
+        }
+        return null;
     }
 
     private void buildAndSendMessage(String msg) throws IOException {
@@ -92,7 +214,7 @@ public class PrintClient {
         return new InetSocketAddress(split[0], Integer.parseInt(split[1]));
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         String addr = null;
 
         if (args != null && args.length > 0)

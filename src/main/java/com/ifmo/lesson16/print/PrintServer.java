@@ -1,17 +1,24 @@
 package com.ifmo.lesson16.print;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.OutputStream;
+import com.ifmo.lesson16.print.Commands.Ban;
+import com.ifmo.lesson16.print.Commands.Ping;
+import com.ifmo.lesson16.print.Commands.ServerTime;
+
+import java.awt.image.AreaAveragingScaleFilter;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class PrintServer {
 
     private int port;
-
+    private List<String> users = new ArrayList<>();
+    private List<String> ipbun = new ArrayList<>();
     private SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss.SSS");
 
     public PrintServer(int port) {
@@ -27,13 +34,11 @@ public class PrintServer {
 
                 try {
                     process(sock);
-                }
-                catch (ClassNotFoundException e) {
+                } catch (ClassNotFoundException e) {
                     System.err.println("Wrong message was received");
 
                     e.printStackTrace();
-                }
-                finally {
+                } finally {
                     sock.close();
                 }
             }
@@ -44,12 +49,40 @@ public class PrintServer {
         String host = sock.getInetAddress().getHostAddress();
 
         try (ObjectInputStream objIn = new ObjectInputStream(sock.getInputStream());
-             OutputStream out = sock.getOutputStream()) {
+             OutputStream out = sock.getOutputStream();
+             ObjectOutputStream objOut = new ObjectOutputStream(sock.getOutputStream());
+             InputStream in = sock.getInputStream()) {
+
             Object obj = objIn.readObject();
 
-            printMessage((Message) obj, host);
-        }
-        catch (IOException | ClassNotFoundException | RuntimeException e) {
+            if (obj instanceof Ping) {
+                Ping ping = (Ping) obj;
+                ping.setTimearrived(System.currentTimeMillis());
+                objOut.writeObject(ping);
+            } else if (obj instanceof ServerTime) {
+                ServerTime serverTime = (ServerTime) obj;
+                serverTime.setTime(new Date());
+                objOut.writeObject(serverTime);
+            }else if (obj instanceof Ban){
+                if (((Ban) obj).isBan()){
+                    ipbun.add(((Ban) obj).getIp());
+                }else{
+                    ipbun.remove(((Ban) obj).getIp());
+                }
+                objOut.writeObject(obj);
+            } else if (obj instanceof Message) {
+                printMessage((Message) obj, host);
+            } else if (obj instanceof User) {
+                if (ipbun.contains(((User) obj).getIp())) {
+                objOut.writeObject(-1);
+                } else if (users.contains(((User) obj).getName())) {
+                    objOut.writeObject(0);
+                } else {
+                    users.add(((User) obj).getName());
+                    objOut.writeObject(1);
+                }
+            }
+        } catch (IOException | ClassNotFoundException | RuntimeException e) {
             System.err.println("Failed process connection from: " + host);
 
             e.printStackTrace();

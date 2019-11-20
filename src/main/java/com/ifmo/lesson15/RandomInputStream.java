@@ -8,6 +8,7 @@ import java.util.Random;
  * Реализация потока ввода, которая генерирует случайные данные
  * указанной длины.
  */
+//заполняет случайными байтами (возвращает случайный байт или заполняет массив ими)
 public class RandomInputStream extends InputStream {
     private final Random random;
     private final long length;
