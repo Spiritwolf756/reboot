@@ -163,7 +163,7 @@ public class PrintClient {
 
                     Ping response = (Ping) objIn.readObject();
 
-                    System.out.println(response.duration());
+                    //System.out.println(response.duration());
                     duration += response.duration();
                     objOut.flush();
                 }
