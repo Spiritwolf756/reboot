@@ -63,6 +63,8 @@ public class PrintServer {
                 ServerTime serverTime = (ServerTime) obj;
                 serverTime.setTime(new Date());
                 objOut.writeObject(serverTime);
+            }else if (obj instanceof String && "getListUsers".equals(obj)){
+                objOut.writeObject(users);
             }else if (obj instanceof Ban){
                 if (((Ban) obj).isBan()){
                     ipbun.add(((Ban) obj).getIp());

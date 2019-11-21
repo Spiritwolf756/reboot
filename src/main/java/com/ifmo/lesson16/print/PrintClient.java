@@ -10,6 +10,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.*;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Scanner;
 
 public class PrintClient {
@@ -62,8 +63,25 @@ public class PrintClient {
                 ban(new Ban(msg.substring(5), true));
             } else if ("/unban ".equals(msg.substring(0, 7))) {
                 ban(new Ban(msg.substring(7), true));
+            } else if ("/list_users".equals(msg)) {
+                getListUsers();
             } else {
                 buildAndSendMessage(msg);
+            }
+        }
+    }
+
+    private void getListUsers() throws IOException, ClassNotFoundException {
+        try (Socket sock = new Socket()) {
+            sock.connect(serverAddr);
+            try (OutputStream out = sock.getOutputStream()) {
+                ObjectOutputStream objOut = new ObjectOutputStream(out);
+                ObjectInputStream objIn = new ObjectInputStream(sock.getInputStream());
+                objOut.writeObject("getListUsers");
+
+                List<String> response = (List<String>) objIn.readObject();
+                System.out.println("Список авторизованных пользователей:");
+                response.forEach(System.out::println);
             }
         }
     }
