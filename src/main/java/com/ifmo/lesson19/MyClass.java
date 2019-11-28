@@ -1,9 +1,9 @@
 package com.ifmo.lesson19;
 
 public class MyClass {
-    @Exclude
-    public  int i;
     private String str;
+    @Exclude
+    public    int i;
     public MyClass(){
         str="строка";
         i=100;
