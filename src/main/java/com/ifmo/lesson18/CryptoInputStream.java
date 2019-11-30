@@ -32,7 +32,7 @@ public class CryptoInputStream extends FilterInputStream {
         if (b != -1) {
             if (count == key.length)
                 count = 0;
-            b = (b ^ key[count]) & 0xFF;
+            b = (b ^ key[count]);
             count++;
         }
         count = 0;
