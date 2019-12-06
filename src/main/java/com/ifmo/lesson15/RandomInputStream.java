@@ -24,6 +24,6 @@ public class RandomInputStream extends InputStream {
         if (position==length)
             return -1;
         position++;
-        return Integer.parseInt(String.valueOf(random));
+        return random.nextInt();
     }
 }

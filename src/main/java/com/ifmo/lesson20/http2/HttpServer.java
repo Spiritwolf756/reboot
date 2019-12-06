@@ -37,9 +37,8 @@ public class HttpServer {
                 System.out.println("New connection!");
 
                 ExecutorService pool = Executors.newCachedThreadPool();
-
-                pool.submit(() -> new Reader(socket));
-
+                pool.submit(() -> new Reader(socket).run());
+                pool.shutdown();
                 //new Thread(new Reader(socket)).start();
             }
         }
