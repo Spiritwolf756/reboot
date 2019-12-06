@@ -27,6 +27,7 @@ public class SawInputStream extends InputStream {
             return -1;
         if (station==amplitude)
             station=0;
+        position++;
         return station++;
     }
 }

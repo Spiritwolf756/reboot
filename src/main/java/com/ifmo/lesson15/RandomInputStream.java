@@ -23,6 +23,7 @@ public class RandomInputStream extends InputStream {
     public int read() throws IOException {
         if (position>length)
             return -1;
+        position++;
         return Integer.parseInt(String.valueOf(random));
     }
 }
