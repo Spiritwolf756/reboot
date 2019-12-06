@@ -12,6 +12,7 @@ import java.util.Random;
 public class RandomInputStream extends InputStream {
     private final Random random;
     private final long length;
+    private long position;
 
     public RandomInputStream(Random random, long length) {
         this.random = random;
@@ -20,7 +21,8 @@ public class RandomInputStream extends InputStream {
 
     @Override
     public int read() throws IOException {
-        // TODO implement
-        return 0;
+        if (position>length)
+            return -1;
+        return Integer.parseInt(String.valueOf(random));
     }
 }

@@ -111,8 +111,6 @@ public class TopWords {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println(getTop10(map));
-
         }
     }
 
