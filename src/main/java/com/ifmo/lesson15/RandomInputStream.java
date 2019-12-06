@@ -21,7 +21,7 @@ public class RandomInputStream extends InputStream {
 
     @Override
     public int read() throws IOException {
-        if (position>length)
+        if (position==length)
             return -1;
         position++;
         return Integer.parseInt(String.valueOf(random));

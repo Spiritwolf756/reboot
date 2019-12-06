@@ -6,6 +6,8 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class HttpServer {
     private static final String RESPONSE = """
@@ -34,7 +36,11 @@ public class HttpServer {
 
                 System.out.println("New connection!");
 
-                new Thread(new Reader(socket)).start();
+                ExecutorService pool = Executors.newCachedThreadPool();
+
+                pool.submit(() -> new Reader(socket));
+
+                //new Thread(new Reader(socket)).start();
             }
         }
     }
