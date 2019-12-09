@@ -73,7 +73,7 @@ public class Bank {
         }
         // 2. Переводите деньги со случайного аккаунта на случайный в 100 потоках.
         //случайный id
-        
+
 
         Thread logger = new Thread(() -> {
             while (true) {
