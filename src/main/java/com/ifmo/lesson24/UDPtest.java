@@ -32,7 +32,7 @@ public class UDPtest {
 
     }
     public void down() throws IOException {
-        server.close();
+       // server.close();
         client.close();
     }
 }

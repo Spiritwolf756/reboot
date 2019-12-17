@@ -10,6 +10,7 @@ public class Bank {
     private Map<Long, User> users = new ConcurrentHashMap<>();
     private List<Account> accounts = new CopyOnWriteArrayList<>();
     private LinkedBlockingQueue<Transaction> lbq = new LinkedBlockingQueue<>();
+    private boolean bankExist = true;
 
     private class User {
         private final long id;
@@ -84,31 +85,38 @@ public class Bank {
                 }
             }
         });
-        // logger.setDaemon(true);
+        logger.setDaemon(true);
         logger.start();
+        Random rnd = new Random();
         ExecutorService pool = Executors.newFixedThreadPool(100);
         for (int i = 0; i < 100; i++) {
             pool.submit(() -> {
-                bank.transferMoney(accounts.get(new Random().nextInt(accounts.size())), accounts.get(new Random().nextInt(accounts.size())), new Random(System.currentTimeMillis()).nextInt(100000));
+                bank.transferMoney(accounts.get(rnd.nextInt(accounts.size())), accounts.get(rnd.nextInt(accounts.size())), rnd.nextInt(100000));
             });
         }
         pool.shutdown();
         // Другими словами, создайте 100 потоков или пул из 100 потоков, в которых
         // выполните перевод вызовом метода transferMoney().
-        try {
+/*        try {
             logger.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
 
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        bank.closeBank();
     }
 
+    public void closeBank() {
+        System.out.println("Закрываем банк");
+        bankExist = !bankExist;
+    }
 
-    // TODO Самая главная часть работы!
-    public void transferMoney(Account from, Account to, long amount) {
-        //попытка перевести на тот же аккаунт
-        if (from.id == to.id)
-            return;
+    public void checkAndTransfer(Account from, Account to, long amount) {
         //недостаточно денег
         if (from.amount < amount) {
             try {
@@ -118,13 +126,29 @@ public class Bank {
             }
             return;
         }
+        from.amount -= amount;
+        to.amount += amount;
+    }
 
-        synchronized (from) {
+    // TODO Самая главная часть работы!
+    public void transferMoney(Account from, Account to, long amount) {
+        //попытка перевести на тот же аккаунт
+        if (from.id == to.id)
+            return;
+        if (from.id < to.id) {
+            synchronized (from) {
+                synchronized (to) {
+                    checkAndTransfer(from, to, amount);
+                }
+            }
+        } else {
             synchronized (to) {
-                from.amount -= amount;
-                to.amount += amount;
+                synchronized (from) {
+                    checkAndTransfer(from, to, amount);
+                }
             }
         }
+
         try {
             lbq.put(new Transaction(from.id, to.id, amount, true));
         } catch (InterruptedException e) {

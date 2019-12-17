@@ -9,7 +9,7 @@ public class UDPserver extends Thread {
 
     private DatagramSocket socket;
     private boolean running;
-    private byte[] buf = new byte[256];
+    private byte[] buf = new byte[1024];
 
     public UDPserver() throws SocketException {
         socket = new DatagramSocket(4445);
@@ -20,18 +20,19 @@ public void close(){
     public void run() {
         running = true;
         File file = new File("E:\\Java\\REBOOT\\Lesson1.1\\src\\main\\resources\\uot.txt");
-        OutputStream out = null;
+        FileOutputStream out = null;
         try {
             out = new FileOutputStream(file);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+      //  int offset = 0;
         while (running) {
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
+       //     offset+=buf.length;
             try {
                 socket.receive(packet);
-                out.write(buf);
-                System.out.println(new String(packet.getData(), 0, packet.getLength()));
+                out.write(packet.getData());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -41,6 +42,8 @@ public void close(){
                 try {
                     out.flush();
                     out.close();
+                    System.out.println("off");
+                    close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
