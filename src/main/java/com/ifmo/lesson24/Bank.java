@@ -11,6 +11,7 @@ public class Bank {
     private List<Account> accounts = new CopyOnWriteArrayList<>();
     private LinkedBlockingQueue<Transaction> lbq = new LinkedBlockingQueue<>();
     private boolean bankExist = true;
+    private boolean isInterrapted = false;
 
     private class User {
         private final long id;
@@ -77,10 +78,13 @@ public class Bank {
 
 
         Thread logger = new Thread(() -> {
-            while (true) {
+            while (!bank.isInterrapted) {
                 try {
                     System.out.println(bank.lbq.take());
                 } catch (InterruptedException e) {
+                    bank.isInterrapted=true;
+                    System.out.println("Логгер прерван");
+                    Thread.currentThread().interrupt();
                     e.printStackTrace();
                 }
             }
